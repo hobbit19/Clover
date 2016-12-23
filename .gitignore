@@ -42,9 +42,6 @@
 /CloverPackage/CloverV2/EFI/CLOVER/tools/bdmesg-32.efi
 /CloverPackage/CloverV2/drivers-Off/
 
-/HFSPlus/Ia32/
-/HFSPlus/X64/
-
 /Version.h
 /vers.txt
 
