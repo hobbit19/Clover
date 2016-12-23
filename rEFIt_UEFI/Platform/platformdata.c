@@ -965,6 +965,7 @@ VOID SetDMISettingsForModel(MACHINE_TYPES Model, BOOLEAN Redefine)
     case MacPro51:
       gSettings.ChassisType = MiscChassisTypeTower; //0x07;
       gSettings.Mobile      = FALSE;
+      gSettings.smartUPS    = TRUE;
       break;
 
     case MacPro11:
@@ -973,6 +974,7 @@ VOID SetDMISettingsForModel(MACHINE_TYPES Model, BOOLEAN Redefine)
     case MacPro61:
       gSettings.ChassisType = MiscChassisTypeUnknown; //0x02; this is a joke but think different!
       gSettings.Mobile      = FALSE;
+      gSettings.smartUPS    = TRUE;
       break;
           
     case Xserve11:
@@ -1178,7 +1180,7 @@ VOID GetDefaultSettings()
                                     ((gGraphics[1].Vendor == Nvidia) && (gGraphics[1].Family < 0xE0)));
 
   gSettings.GraphicsInjector     = gSettings.InjectATI || gSettings.InjectNVidia;
-  CopyMem (gSettings.NVCAP, default_NVCAP, 20); 
+  CopyMem (gSettings.NVCAP, default_NVCAP, 20);
   CopyMem (gSettings.Dcfg, default_dcfg_0, 4);
   CopyMem (&gSettings.Dcfg[4], default_dcfg_1, 4);
   //gSettings.CustomEDID           = NULL; //no sense to assign 0 as the structure is zeroed
@@ -1221,7 +1223,7 @@ VOID GetDefaultSettings()
     //gSettings.DropSSDT           = TRUE;    //why drop all???
     gSettings.C3Latency          = 0x00FA;
   }
-  
+
 //CPU
   //gSettings.EnableISS            = FALSE; //((gCPUStructure.CPUID[CPUID_1][ECX] & (1<<7)) != 0);
   gSettings.Turbo                = gCPUStructure.Turbo;

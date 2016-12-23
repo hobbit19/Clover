@@ -2008,7 +2008,7 @@ EFI_STATUS PatchACPI(IN REFIT_VOLUME *Volume, CHAR8 *OSVersion)
     //should correct headers if needed and if asked
     PatchTableHeader((EFI_ACPI_DESCRIPTION_HEADER*)newFadt);
 
-    if (gSettings.smartUPS==TRUE) {
+    if (gSettings.smartUPS) {
       newFadt->PreferredPmProfile = 3;
     } else {
       newFadt->PreferredPmProfile = gMobile?2:1; //as calculated before
@@ -2056,7 +2056,7 @@ EFI_STATUS PatchACPI(IN REFIT_VOLUME *Volume, CHAR8 *OSVersion)
       newFadt->FirmwareCtrl = (UINT32)XFirmwareCtrl;
       Facs = (EFI_ACPI_4_0_FIRMWARE_ACPI_CONTROL_STRUCTURE*)(UINTN)XFirmwareCtrl;
     }
-    
+
     //patch for FACS included here
     Facs->Version = EFI_ACPI_4_0_FIRMWARE_ACPI_CONTROL_STRUCTURE_VERSION;
     if (GlobalConfig.SignatureFixup) {
@@ -2067,7 +2067,7 @@ EFI_STATUS PatchACPI(IN REFIT_VOLUME *Volume, CHAR8 *OSVersion)
       Facs->HardwareSignature = 0;
     }
     //
-    
+
     if ((gSettings.ResetAddr == 0) && ((oldLength < 0x80) || (newFadt->ResetReg.Address == 0))) {
       newFadt->ResetReg.Address   = 0x64;
       newFadt->ResetValue         = 0xFE;
