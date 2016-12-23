@@ -5738,7 +5738,7 @@ GetUserSettings(
       }
       // CsrActiveConfig
       Prop = GetProperty (DictPointer, "CsrActiveConfig");
-      gSettings.CsrActiveConfig = (UINT32)GetPropertyInteger (Prop, 0x67); //the value 0xFFFF means not set
+      gSettings.CsrActiveConfig = (UINT32)GetPropertyInteger (Prop, 0xFFFF); //the value 0xFFFF means not set
  //     SysVarsTmpCsrActiveConfig = gSettings.CsrActiveConfig;
 
       //BooterConfig
