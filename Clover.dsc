@@ -426,14 +426,15 @@
   Clover/LegacyBios/Region2Dxe/LegacyRegion2Dxe.inf
 
   # Misc
+  Clover/Protocols/AppleGraphicsConfiguration/AppleGraphicsConfiguration.inf
+  Clover/Protocols/AppleImageCodec/AppleImageCodec.inf
+  Clover/Protocols/AppleKeyAggregator/AppleKeyAggregator.inf
   Clover/Protocols/FSInject/FSInject.inf
+  Clover/Protocols/FvInject/FvInject.inf
+  Clover/Protocols/HashServiceFix/HashServiceFix.inf
   Clover/Protocols/MsgLog/MsgLog.inf
   Clover/Protocols/SmcHelper/SmcHelper.inf
-  Clover/Protocols/FvInject/FvInject.inf
-  Clover/Protocols/AppleImageCodec/AppleImageCodec.inf
   Clover/Protocols/UserInterfaceThemeDriver/UserInterfaceThemeDriver.inf
-  Clover/Protocols/HashServiceFix/HashServiceFix.inf
-  Clover/Protocols/AppleKeyAggregator/AppleKeyAggregator.inf
 
 !ifdef DEBUG_ON_SERIAL_PORT
 
