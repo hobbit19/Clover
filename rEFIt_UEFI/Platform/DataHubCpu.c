@@ -323,6 +323,47 @@ SetVariablesForOSX(LOADER_ENTRY *Entry)
     }
   }
 
+  // SMC helper
+  SetNvramVariable (
+    L"fakesmc-key-RPlt-ch8*",
+    &gAppleBootVariableGuid,
+    Attributes,
+    8,
+    &gSettings.RPlt
+    );
+
+  SetNvramVariable (
+    L"fakesmc-key-RBr-ch8*",
+    &gAppleBootVariableGuid,
+    Attributes,
+    8,
+    &gSettings.RBr
+    );
+
+  SetNvramVariable (
+    L"fakesmc-key-EPCI-ui32",
+    &gAppleBootVariableGuid,
+    Attributes,
+    4,
+    &gSettings.EPCI
+    );
+
+  SetNvramVariable (
+    L"fakesmc-key-REV-{rev",
+    &gAppleBootVariableGuid,
+    Attributes,
+    6,
+    &gSettings.REV
+    );
+
+  SetNvramVariable (
+    L"fakesmc-key-BEMB-flag",
+    &gAppleBootVariableGuid,
+    Attributes,
+    1,
+    &gSettings.Mobile
+    );
+
   return EFI_SUCCESS;
 }
 
@@ -417,13 +458,6 @@ SetupDataForOSX(BOOLEAN Hibernate)
     LogDataHub(&gEfiMiscSubClassGuid, L"OEMVendor",  &gSettings.OEMVendor,  (UINT32)iStrLen(gSettings.OEMVendor,  64) + 1);
     LogDataHub(&gEfiMiscSubClassGuid, L"OEMProduct", &gSettings.OEMProduct, (UINT32)iStrLen(gSettings.OEMProduct, 64) + 1);
     LogDataHub(&gEfiMiscSubClassGuid, L"OEMBoard",   &gSettings.OEMBoard,   (UINT32)iStrLen(gSettings.OEMBoard,   64) + 1);
-
-    // SMC helper
-    LogDataHub(&gEfiMiscSubClassGuid, L"RPlt", &gSettings.RPlt,   8);
-    LogDataHub(&gEfiMiscSubClassGuid, L"RBr",  &gSettings.RBr,    8);
-    LogDataHub(&gEfiMiscSubClassGuid, L"EPCI", &gSettings.EPCI,   4);
-    LogDataHub(&gEfiMiscSubClassGuid, L"REV",  &gSettings.REV,    6);
-    LogDataHub(&gEfiMiscSubClassGuid, L"BEMB", &gSettings.Mobile, 1);
 
     // all current settings
     LogDataHub(&gEfiMiscSubClassGuid, L"Settings", &gSettings, sizeof(gSettings));
