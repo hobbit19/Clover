@@ -2322,7 +2322,7 @@ GetEarlyUserSettings (
   UINTN       Size = 0;
   BOOLEAN     SpecialBootMode = FALSE;
   //read aptiofixflag from nvram for special boot
-  Status = GetVariable2 (L"aptiofixflag", &gEfiAppleBootGuid, &Value, &Size);
+  Status = GetVariable2 (L"aptiofixflag", &gAppleBootVariableGuid, &Value, &Size);
   if (!EFI_ERROR(Status)) {
     SpecialBootMode = TRUE;
     FreePool(Value);
@@ -3935,7 +3935,7 @@ InitTheme(
     }
     // Try theme from nvram
     if (ThemeDict == NULL && UseThemeDefinedInNVRam) {
-      ChosenTheme   = GetNvramVariable(L"Clover.Theme", &gEfiAppleBootGuid, NULL, &Size);
+      ChosenTheme   = GetNvramVariable(L"Clover.Theme", &gAppleBootVariableGuid, NULL, &Size);
       if (ChosenTheme != NULL) {
         if (AsciiStrCmp (ChosenTheme, "embedded") == 0) {
           goto finish;

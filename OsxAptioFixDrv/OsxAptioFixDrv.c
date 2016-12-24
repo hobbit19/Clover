@@ -200,7 +200,7 @@ AllocateRelocBlock()
 
 	// set reloc addr in runtime vars for boot manager
 	//Print(L"OsxAptioFixDrv: AllocateRelocBlock(): gRelocBase set to %lx - %lx\n", gRelocBase, gRelocBase + EFI_PAGES_TO_SIZE(gRelocSizePages) - 1);
-	/*Status = */gRT->SetVariable(L"OsxAptioFixDrv-RelocBase", &gEfiAppleBootGuid, 
+	/*Status = */gRT->SetVariable(L"OsxAptioFixDrv-RelocBase", &gAppleBootVariableGuid, 
 							  /*   EFI_VARIABLE_NON_VOLATILE |*/ EFI_VARIABLE_BOOTSERVICE_ACCESS | EFI_VARIABLE_RUNTIME_ACCESS,
 							  sizeof(gRelocBase) ,&gRelocBase);
 	return Status;
@@ -380,7 +380,7 @@ MOExitBootServices (
 	if (EFI_ERROR (Status)) {
 		// just report error as var in nvram to be visible from OSX with "nvrap -p"
 		gRT->SetVariable(L"OsxAptioFixDrv-ErrorExitingBootServices",
-						 &gEfiAppleBootGuid,
+						 &gAppleBootVariableGuid,
 						 EFI_VARIABLE_BOOTSERVICE_ACCESS | EFI_VARIABLE_RUNTIME_ACCESS,
 						 3,
 						 "Yes"
@@ -554,31 +554,31 @@ MOStartImage (
 
 	//the presence of the variable means HibernateWake
 	//if the wake is canceled then the variable must be deleted
-	Status = gRT->GetVariable(L"boot-switch-vars", &gEfiAppleBootGuid, NULL, &Size, NULL);
+	Status = gRT->GetVariable(L"boot-switch-vars", &gAppleBootVariableGuid, NULL, &Size, NULL);
 	gHibernateWake = (Status == EFI_BUFFER_TOO_SMALL);
 	
 	if (StrStriBasic(FilePathText,L"boot.efi")){
-    Status = GetVariable2 (L"aptiofixflag", &gEfiAppleBootGuid, &Value, &Size2);
+    Status = GetVariable2 (L"aptiofixflag", &gAppleBootVariableGuid, &Value, &Size2);
     if (!EFI_ERROR(Status)) {
-      Status = gRT->SetVariable(L"recovery-boot-mode", &gEfiAppleBootGuid,
+      Status = gRT->SetVariable(L"recovery-boot-mode", &gAppleBootVariableGuid,
                                 EFI_VARIABLE_NON_VOLATILE | EFI_VARIABLE_BOOTSERVICE_ACCESS | EFI_VARIABLE_RUNTIME_ACCESS,
                                 Size2, Value);
       if (EFI_ERROR(Status)) {
         DBG(" Something goes wrong while setting recovery-boot-mode\n");
       }
-      Status = gRT->SetVariable (L"aptiofixflag", &gEfiAppleBootGuid, 0, 0, NULL);
+      Status = gRT->SetVariable (L"aptiofixflag", &gAppleBootVariableGuid, 0, 0, NULL);
       FreePool(Value);
     }
     
     Size2 =0;
     //Check recovery-boot-mode present for nested boot.efi
-    Status = GetVariable2 (L"recovery-boot-mode", &gEfiAppleBootGuid, &Value, &Size2);
+    Status = GetVariable2 (L"recovery-boot-mode", &gAppleBootVariableGuid, &Value, &Size2);
     if (!EFI_ERROR(Status)) {
       //If it presents, then wait for \com.apple.recovery.boot\boot.efi boot
       DBG(" recovery-boot-mode present\n");
       StartFlag = StrStriBasic(FilePathText,L"\\com.apple.recovery.boot\\boot.efi");
       if (Counter > 0x00){
-        Status = gRT->SetVariable(L"aptiofixflag", &gEfiAppleBootGuid,
+        Status = gRT->SetVariable(L"aptiofixflag", &gAppleBootVariableGuid,
                                   EFI_VARIABLE_NON_VOLATILE | EFI_VARIABLE_BOOTSERVICE_ACCESS | EFI_VARIABLE_RUNTIME_ACCESS,
                                   Size2, Value);
         if (EFI_ERROR(Status)) {
