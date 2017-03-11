@@ -2613,10 +2613,10 @@ BOOLEAN setup_gma_devprop(pci_dt_t *gma_dev)
       DBG("  Intel card id=%x unsupported, please report to the clover thread\n", gma_dev->device_id);
       return FALSE;
   }
-  
+
 #if DEBUG_GMA == 2
   gBS->Stall(5000000);
 #endif
-  
+
   return TRUE;
 }

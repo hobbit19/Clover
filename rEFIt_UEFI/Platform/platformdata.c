@@ -759,7 +759,7 @@ VOID SetDMISettingsForModel(MACHINE_TYPES Model, BOOLEAN Redefine)
       gFwFeaturesMask         = 0xFFFFFFFF; //unknown - use oem SMBIOS value to be default
       break;
   }
-  
+
   // PlatformFeature
   // the memory tab in About This Mac
   // by TheRacerMaster
@@ -976,7 +976,7 @@ VOID SetDMISettingsForModel(MACHINE_TYPES Model, BOOLEAN Redefine)
       gSettings.Mobile      = FALSE;
       gSettings.smartUPS    = TRUE;
       break;
-          
+
     case Xserve11:
     case Xserve21:
     case Xserve31:
@@ -1004,15 +1004,15 @@ VOID SetDMISettingsForModel(MACHINE_TYPES Model, BOOLEAN Redefine)
       case CPU_MODEL_CELERON:
         AsciiStrCpyS (gSettings.RBr, 8, "m70");
         break;
-                
+
       case CPU_MODEL_YONAH:
         AsciiStrCpyS (gSettings.RBr, 8, "k22");
         break;
-                
+
       case CPU_MODEL_MEROM: //TODO check for mobile
         AsciiStrCpyS (gSettings.RBr, 8, "m75");
         break;
-                
+
       case CPU_MODEL_PENRYN:
         if (gSettings.Mobile) {
           AsciiStrCpyS (gSettings.RBr, 8, "m82");
@@ -1020,7 +1020,7 @@ VOID SetDMISettingsForModel(MACHINE_TYPES Model, BOOLEAN Redefine)
           AsciiStrCpyS (gSettings.RBr, 8, "k36");
         }
         break;
-                
+
       case CPU_MODEL_SANDY_BRIDGE:
         if (gSettings.Mobile) {
           AsciiStrCpyS (gSettings.RBr, 8, "k90i");
@@ -1028,39 +1028,39 @@ VOID SetDMISettingsForModel(MACHINE_TYPES Model, BOOLEAN Redefine)
           AsciiStrCpyS (gSettings.RBr, 8, "k60");
         }
         break;
-                
+
       case CPU_MODEL_IVY_BRIDGE:
         AsciiStrCpyS (gSettings.RBr, 8, "j30");
         break;
-                
+
       case CPU_MODEL_IVY_BRIDGE_E5:
         AsciiStrCpyS (gSettings.RBr, 8, "j90");
         break;
-                
+
       case CPU_MODEL_HASWELL_ULT:
         AsciiStrCpyS (gSettings.RBr, 8, "j44");
         break;
-                
+
       case CPU_MODEL_HASWELL_U5: //Mobile - Broadwell
         AsciiStrCpyS (gSettings.RBr, 8, "j52");
         break;
-                
+
       case CPU_MODEL_SKYLAKE_D:
         AsciiStrCpyS (gSettings.RBr, 8, "j95j95am");
         break;
-                
+
       case CPU_MODEL_SKYLAKE_U:
         AsciiStrCpyS (gSettings.RBr, 8, "2016mb");
         break;
-                
+
       case CPU_MODEL_KABYLAKE1: //Mobile
         AsciiStrCpyS (gSettings.RBr, 8, "2017mbp");
         break;
-                
+
       case CPU_MODEL_KABYLAKE2: //Desktop
         AsciiStrCpyS (gSettings.RBr, 8, "j133_4_5");
         break;
-                
+
       default:
         AsciiStrCpyS (gSettings.RBr, 8, "t9");
         break;
@@ -1201,7 +1201,7 @@ VOID GetDefaultSettings()
   gSettings.BooterConfig         = 0;
   gSettings.DisableCloverHotkeys = FALSE;
   gSettings.UIScale              = 1;
-  
+
   ResumeFromCoreStorage          = FALSE;
 
   if (gCPUStructure.Model >= CPU_MODEL_IVY_BRIDGE) {

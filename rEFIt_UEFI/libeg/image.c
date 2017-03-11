@@ -503,7 +503,7 @@ static EG_IMAGE * egDecodeAny(IN UINT8 *FileData, IN UINTN FileDataLength,
     } else  if (StriCmp(Format, L"BMP") == 0) {
       //DBG("decode format BMP\n");
       DecodeFunc = egDecodeBMP;
-    } 
+    }
     //  else if (StriCmp(Format, L"TGA") == 0)
     //    DecodeFunc = egDecodeTGA;
 
@@ -521,7 +521,7 @@ static EG_IMAGE * egDecodeAny(IN UINT8 *FileData, IN UINTN FileDataLength,
       NewImage = egDecodeICNS(FileData, FileDataLength, IconSize, WantAlpha);
     }  else {
  //     DBG(" ..decoded as png\n");
-    } 
+    }
 
     if (!NewImage) {
       DBG(" ..png and icns is wrong try to decode bmp\n");
@@ -587,7 +587,7 @@ EG_IMAGE * egLoadIcon(IN EFI_FILE_HANDLE BaseDir, IN CHAR16 *FileName, IN UINTN 
 //    DBG("not png, try icns\n");
     NewImage = egDecodeICNS(FileData, FileDataLength, IconSize, TRUE);
   }
-  
+
   FreePool(FileData);
 
   return NewImage;

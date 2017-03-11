@@ -105,18 +105,18 @@ EG_IMAGE * BuiltinIcon(IN UINTN Id)
   EG_IMAGE  *TextBuffer = NULL;
   CHAR16    *p;
   CHAR16    *Text;
-  
+
   if (Id >= BUILTIN_ICON_COUNT) {
     return NULL;
   }
-  
+
   if (BuiltinIconTable[Id].Image != NULL) {
     return BuiltinIconTable[Id].Image;
   }
-  
+
   Size = BuiltinIconTable[Id].PixelSize;
   //DBG("Load Icon [id:%d]");
-  
+
   if (ThemeDir) {
     CHAR16    *Path;
     Path = GetIconsExt(BuiltinIconTable[Id].Path, BuiltinIconTable[Id].Format);
@@ -131,12 +131,12 @@ EG_IMAGE * BuiltinIcon(IN UINTN Id)
     }
     FreePool(Path);
   }
-  
+
   if (BuiltinIconTable[Id].Image) {
-    
+
     return BuiltinIconTable[Id].Image;
   }
-  
+
   switch (Id) {
     case BUILTIN_ICON_POINTER:
       DEC_BUILTIN_ICON(Id, emb_pointer); break;
@@ -179,7 +179,7 @@ EG_IMAGE * BuiltinIcon(IN UINTN Id)
       DEC_BUILTIN_ICON(Id, emb_selection_big); break;
   }
 //  DBG("Icon %d decoded, pointer %x\n", Id, (UINTN)(BuiltinIconTable[Id].Image));
-  
+
   if (!BuiltinIconTable[Id].Image) {
     TextBuffer = egCreateImage(Size, Size, TRUE);  //new pointer
     egFillImage(TextBuffer, &MenuBackgroundPixel);
@@ -196,7 +196,7 @@ EG_IMAGE * BuiltinIcon(IN UINTN Id)
     DebugLog(1, "        [!] Icon %d: Text <%s> rendered\n", Id, Text);
     FreePool(Text);
   }
-  
+
   return BuiltinIconTable[Id].Image;
 }
 

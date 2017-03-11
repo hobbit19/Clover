@@ -79,7 +79,7 @@ EG_IMAGE * egLoadFontImage(IN BOOLEAN UseEmbedded, IN INTN Rows, IN INTN Cols)
   BOOLEAN     isKorean = (gLanguage == korean);
   CHAR16      *fontFilePath = NULL;
   CHAR16      *commonFontDir = L"EFI\\CLOVER\\font";
-  
+
   if (IsEmbeddedTheme() && !isKorean) { //or initial screen before theme init
     NewImage = egDecodePNG(ACCESS_EMB_DATA(emb_font_data), ACCESS_EMB_SIZE(emb_font_data), TRUE);
     MsgLog("Using embedded font: %a\n", NewImage ? "Success" : "Error");
@@ -87,7 +87,7 @@ EG_IMAGE * egLoadFontImage(IN BOOLEAN UseEmbedded, IN INTN Rows, IN INTN Cols)
     NewImage = egLoadImage(ThemeDir, isKorean ? L"FontKorean.png" : GlobalConfig.FontFileName, TRUE);
     MsgLog("Loading font from ThemeDir: %a\n", NewImage ? "Success" : "Error");
   }
-  
+
   if (!NewImage) {
     //then take from common font folder
     fontFilePath = PoolPrint(L"%s\\%s", commonFontDir, isKorean ? L"FontKorean.png" : GlobalConfig.FontFileName);
@@ -104,14 +104,14 @@ EG_IMAGE * egLoadFontImage(IN BOOLEAN UseEmbedded, IN INTN Rows, IN INTN Cols)
     }
     FreePool(fontFilePath);
   }
-  
+
   ImageWidth = NewImage->Width;
   DBG("ImageWidth=%d\n", ImageWidth);
   ImageHeight = NewImage->Height;
   DBG("ImageHeight=%d\n", ImageHeight);
   PixelPtr = NewImage->PixelData;
   NewFontImage = egCreateImage(ImageWidth * Rows, ImageHeight / Rows, TRUE);
-  
+
   if (NewFontImage == NULL) {
     DBG("Can't create new font image!\n");
     if (NewImage) {
@@ -119,7 +119,7 @@ EG_IMAGE * egLoadFontImage(IN BOOLEAN UseEmbedded, IN INTN Rows, IN INTN Cols)
     }
     return NULL;
   }
-  
+
   FontWidth = ImageWidth / Cols;
   FontHeight = ImageHeight / Rows;
   FirstPixel = *PixelPtr;
@@ -139,9 +139,9 @@ EG_IMAGE * egLoadFontImage(IN BOOLEAN UseEmbedded, IN INTN Rows, IN INTN Cols)
       }
     }
   }
-  
+
   egFreeImage(NewImage);
-  
+
   return NewFontImage;
 }
 
@@ -149,12 +149,12 @@ VOID PrepareFont()
 {
   EG_PIXEL    *p;
   INTN         Width, Height;
-  
+
   if (FontImage) {
     egFreeImage(FontImage);
     FontImage = NULL;
   }
-  
+
   if (gLanguage == korean) {
     FontImage = egLoadFontImage(FALSE, 10, 28);
     if (FontImage) {
@@ -169,13 +169,13 @@ VOID PrepareFont()
       gLanguage = english;
     }
   }
-  
+
   // load the font
   if (FontImage == NULL){
     DBG("load font image type %d\n", GlobalConfig.Font);
     FontImage = egLoadFontImage(TRUE, 16, 16); //anyway success
   }
-  
+
   if (FontImage) {
     if (GlobalConfig.Font == FONT_GRAY) {
       //invert the font. embedded is dark
@@ -189,7 +189,7 @@ VOID PrepareFont()
         }
       }
     }
-    
+
     TextHeight = FontHeight + TEXT_YMARGIN * 2;
     DBG("Font %d prepared WxH=%dx%d CharWidth=%d\n", GlobalConfig.Font, FontWidth, FontHeight, GlobalConfig.CharWidth);
   } else {
@@ -241,14 +241,14 @@ INTN egRenderText(IN CHAR16 *Text, IN OUT EG_IMAGE *CompImage,
   UINTN           Cho = 0, Jong = 0, Joong = 0;
   UINTN           LeftSpace, RightSpace;
   INTN            RealWidth = 0;
-  
+
   // clip the text
   TextLength = StrLen(Text);
   if (!FontImage) {
 //    GlobalConfig.Font = FONT_ALFA;
     PrepareFont();
   }
-  
+
 //  DBG("TextLength =%d PosX=%d PosY=%d\n", TextLength, PosX, PosY);
   // render it
   BufferPtr = CompImage->PixelData;

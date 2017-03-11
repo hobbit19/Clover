@@ -44,10 +44,10 @@ typedef struct pci_dt_t {
   EFI_HANDLE    DeviceHandle;
   UINT8*        regs;
 	pci_dev_t			dev;
-	
+
 	UINT16				vendor_id;
 	UINT16				device_id;
-	
+
 	union {
 		struct {
 			UINT16	  vendor_id;
@@ -57,8 +57,8 @@ typedef struct pci_dt_t {
 	} subsys_id;
 	UINT8		      revision;
 	UINT8		      subclass;
-	UINT16				class_id;	
-	
+	UINT16				class_id;
+
 	struct pci_dt_t			*parent;
 	struct pci_dt_t			*children;
 	struct pci_dt_t			*next;
@@ -133,11 +133,11 @@ struct DevPropDevice {
 	struct PCIDevPath  pci_dev_path[MAX_PCI_DEV_PATHS]; // = 0x01010600 func dev
 	struct DevicePathEnd path_end;						// = 0x7fff0400
 	UINT8 *data;
-	
+
 	// ------------------------
 	UINT8	 num_pci_devpaths;
 	struct DevPropString *string;
-	// ------------------------	
+	// ------------------------
 };
 
 typedef struct DevPropDevice  DevPropDevice;

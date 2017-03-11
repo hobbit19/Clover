@@ -1,4 +1,4 @@
-#include "libegint.h" 
+#include "libegint.h"
 
 /*
 DEFINE_EMB_DATA(egemb_font_data)  {
@@ -303,7 +303,7 @@ DEFINE_EMB_DATA(egemb_font_data)  {
  0x00, 0xff, 0x00, 0xc2, 0x00, 0x84, 0xff, 0xff, 0x00, 0xdb, 0x00,
 };
  DEFINE_EMB_SIZE(egemb_font_data)
- 
+
 
 static EG_EMBEDDED_IMAGE egemb_font = { 672, 12, EG_EIPIXELMODE_ALPHA, EG_EICOMPMODE_RLE, egemb_font_data, sizeof(egemb_font_data) };
 static EG_EMBEDDED_IMAGE egemb_font_gray = { 672, 12, EG_EIPIXELMODE_GRAY, EG_EICOMPMODE_RLE, egemb_font_data, sizeof(egemb_font_data) };

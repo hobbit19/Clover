@@ -10,7 +10,7 @@
  * hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
  */
 /*
- Slice 2011, 
+ Slice 2011,
  some more adoptations for Apple's OS
  */
 
@@ -69,7 +69,7 @@ EFI_STATUS EFIAPI
 GetDeviceProps(IN     APPLE_GETVAR_PROTOCOL   *This,
                IN     CHAR8                   *Buffer,
                IN OUT UINT32                  *BufferSize)
-{ 
+{
 
   if(!gSettings.StringInjector && (mProperties != NULL) && (mPropSize > 1)) {
     if (*BufferSize < mPropSize) {
@@ -78,7 +78,7 @@ GetDeviceProps(IN     APPLE_GETVAR_PROTOCOL   *This,
     }
     *BufferSize = mPropSize;
     CopyMem(Buffer, mProperties,  mPropSize);
-    return EFI_SUCCESS;      
+    return EFI_SUCCESS;
   } else if ((cProperties != NULL) && (cPropSize > 1)) {
     if (*BufferSize < cPropSize) {
       *BufferSize = cPropSize;
@@ -86,9 +86,9 @@ GetDeviceProps(IN     APPLE_GETVAR_PROTOCOL   *This,
     }
     *BufferSize = cPropSize;
     CopyMem(Buffer, cProperties,  cPropSize);
-    return EFI_SUCCESS;      
+    return EFI_SUCCESS;
   }
-  *BufferSize = 0;    
+  *BufferSize = 0;
 	return EFI_SUCCESS;
 }
 
@@ -98,12 +98,12 @@ APPLE_GETVAR_PROTOCOL mDeviceProperties=
 	NULL,
 	NULL,
 	NULL,
-	GetDeviceProps,   
+	GetDeviceProps,
   NULL,
 };
 
 typedef	EFI_STATUS (EFIAPI *EFI_SCREEN_INFO_FUNCTION)(
-                                                      VOID* This, 
+                                                      VOID* This,
                                                       UINT64* baseAddress,
                                                       UINT64* frameBufferSize,
                                                       UINT32* byterPerRow,
@@ -112,8 +112,8 @@ typedef	EFI_STATUS (EFIAPI *EFI_SCREEN_INFO_FUNCTION)(
                                                       UINT32* colorDepth
                                                       );
 
-typedef struct {	
-	EFI_SCREEN_INFO_FUNCTION GetScreenInfo;	
+typedef struct {
+	EFI_SCREEN_INFO_FUNCTION GetScreenInfo;
 } EFI_INTERFACE_SCREEN_INFO;
 
 EFI_STATUS EFIAPI GetScreenInfo(VOID* This, UINT64* baseAddress, UINT64* frameBufferSize,
@@ -128,7 +128,7 @@ EFI_STATUS EFIAPI GetScreenInfo(VOID* This, UINT64* baseAddress, UINT64* frameBu
    */
 	EFI_GRAPHICS_OUTPUT_PROTOCOL	*mGraphicsOutput=NULL;
 	EFI_STATUS						Status;
-	
+
 	Status = gBS->HandleProtocol (gST->ConsoleOutHandle,
                                 &gEfiGraphicsOutputProtocolGuid,
                                 (VOID **) &mGraphicsOutput);
@@ -187,7 +187,7 @@ SetPrivateVarProto(VOID)
   // optional protocols
   /*Status = */gBS->InstallMultipleProtocolInterfaces (&gImageHandle,
                                                        &gAppleScreenInfoProtocolGuid,
-                                                       &mScreenInfo, 
+                                                       &mScreenInfo,
                                                        &gEfiKeyboardInfoProtocolGuid,
                                                        &mKeyboardInfo,
                                                        NULL
@@ -198,6 +198,6 @@ SetPrivateVarProto(VOID)
                                           EFI_NATIVE_INTERFACE,
                                           &mDeviceProperties
                                           );
-	
+
   return Status;
 }
