@@ -20,9 +20,6 @@
 #include "Platform.h"
 #include <Protocol/KeyboardInfo.h>
 
-EFI_GUID gDevicePropertiesGuid = {
-  0x91BD12FE, 0xF6C3, 0x44FB, {0xA5, 0xB7, 0x51, 0x22, 0xAB, 0x30, 0x3A, 0xE0}
-};
 /*
 EFI_GUID gAppleScreenInfoProtocolGuid = {
 	0xe316e100, 0x0751, 0x4c49, {0x90, 0x56, 0x48, 0x6c, 0x7e, 0x47, 0x29, 0x03}
@@ -43,64 +40,6 @@ CHAR8* BootOSName = NULL;
 
 UINT16 KeyboardVendor = 0x05ac; //Apple inc.
 UINT16 KeyboardProduct = 0x021d; //iMac aluminium
-
-typedef struct _APPLE_GETVAR_PROTOCOL APPLE_GETVAR_PROTOCOL;
-
-typedef
-EFI_STATUS
-(EFIAPI *APPLE_GETVAR_PROTOCOL_GET_DEVICE_PROPS) (
-                                                  IN     APPLE_GETVAR_PROTOCOL   *This,
-                                                  IN     CHAR8                   *Buffer,
-                                                  IN OUT UINT32                  *BufferSize);
-
-struct _APPLE_GETVAR_PROTOCOL {
-  UINT64    Sign;
-  EFI_STATUS(EFIAPI *Unknown1)(IN VOID *);              //GetPropertyValue
-  EFI_STATUS(EFIAPI *Unknown2)(IN VOID *);              //SetProperty
-  EFI_STATUS(EFIAPI *Unknown3)(IN VOID *);              //RemoveProperty
-  APPLE_GETVAR_PROTOCOL_GET_DEVICE_PROPS  GetDevProps;  //GetPropertyBuffer
-  APPLE_GETVAR_PROTOCOL_GET_DEVICE_PROPS  GetDevProps1;
-};
-
-
-#define DEVICE_PROPERTIES_SIGNATURE SIGNATURE_64('A','P','P','L','E','D','E','V')
-
-EFI_STATUS EFIAPI
-GetDeviceProps(IN     APPLE_GETVAR_PROTOCOL   *This,
-               IN     CHAR8                   *Buffer,
-               IN OUT UINT32                  *BufferSize)
-{
-
-  if(!gSettings.StringInjector && (mProperties != NULL) && (mPropSize > 1)) {
-    if (*BufferSize < mPropSize) {
-      *BufferSize = mPropSize;
-      return EFI_BUFFER_TOO_SMALL;
-    }
-    *BufferSize = mPropSize;
-    CopyMem(Buffer, mProperties,  mPropSize);
-    return EFI_SUCCESS;
-  } else if ((cProperties != NULL) && (cPropSize > 1)) {
-    if (*BufferSize < cPropSize) {
-      *BufferSize = cPropSize;
-      return EFI_BUFFER_TOO_SMALL;
-    }
-    *BufferSize = cPropSize;
-    CopyMem(Buffer, cProperties,  cPropSize);
-    return EFI_SUCCESS;
-  }
-  *BufferSize = 0;
-	return EFI_SUCCESS;
-}
-
-APPLE_GETVAR_PROTOCOL mDeviceProperties=
-{
-	DEVICE_PROPERTIES_SIGNATURE,
-	NULL,
-	NULL,
-	NULL,
-	GetDeviceProps,
-  NULL,
-};
 
 typedef	EFI_STATUS (EFIAPI *EFI_SCREEN_INFO_FUNCTION)(
                                                       VOID* This,
@@ -192,12 +131,6 @@ SetPrivateVarProto(VOID)
                                                        &mKeyboardInfo,
                                                        NULL
                                                        );
-	//obligatory protocol
-  Status = gBS->InstallProtocolInterface (&gImageHandle,
-                                          &gDevicePropertiesGuid,
-                                          EFI_NATIVE_INTERFACE,
-                                          &mDeviceProperties
-                                          );
 
   return Status;
 }
