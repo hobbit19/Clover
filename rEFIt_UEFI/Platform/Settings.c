@@ -6496,15 +6496,15 @@ GetDevices ()
         }
 
         else if ((Pci.Hdr.ClassCode[2] == PCI_CLASS_MEDIA) &&
-                 ((Pci.Hdr.ClassCode[1] == PCI_CLASS_MEDIA_HDA) ||
-                  (Pci.Hdr.ClassCode[1] == PCI_CLASS_MEDIA_AUDIO)) &&
-            (NHDA < 4)) {
+         ((Pci.Hdr.ClassCode[1] == PCI_CLASS_MEDIA_HDA) ||
+         (Pci.Hdr.ClassCode[1] == PCI_CLASS_MEDIA_AUDIO)) &&
+         (NHDA < 4)) {
+          MsgLog (" - HDA: %a", GetHdaControllerName (Pci.Hdr.VendorId, Pci.Hdr.DeviceId));
+          HDA_PROPERTIES *hda = &gAudios[NHDA];
 
-            HDA_PROPERTIES *hda = &gAudios[NHDA];
-
-            // Populate Controllers IDs
-            hda->controller_vendor_id       = Pci.Hdr.VendorId;
-            hda->controller_device_id       = Pci.Hdr.DeviceId;
+          // Populate Controllers IDs
+          hda->controller_vendor_id       = Pci.Hdr.VendorId;
+          hda->controller_device_id       = Pci.Hdr.DeviceId;
 
 
             // HDA Controller Info
@@ -6895,8 +6895,11 @@ SetDevices (LOADER_ENTRY *Entry)
                  ((Pci.Hdr.ClassCode[1] == PCI_CLASS_MEDIA_HDA) ||
                   (Pci.Hdr.ClassCode[1] == PCI_CLASS_MEDIA_AUDIO))) {
           // HDMI injection inside
-            TmpDirty    = setup_hda_devprop (PciIo, &PCIdevice, Entry->OSVersion);
-            StringDirty |= TmpDirty;
+            if (IsHDMIAudio (HandleBuffer[i])) {
+              InjectHdaProperties (&Pci, DevicePathFromHandle (HandleBuffer[i]), TRUE);
+            } else {
+              InjectHdaProperties (&Pci, DevicePathFromHandle (HandleBuffer[i]), FALSE);
+            }
         }
 
         //LPC
