@@ -6499,7 +6499,7 @@ GetDevices ()
          ((Pci.Hdr.ClassCode[1] == PCI_CLASS_MEDIA_HDA) ||
          (Pci.Hdr.ClassCode[1] == PCI_CLASS_MEDIA_AUDIO)) &&
          (NHDA < 4)) {
-          MsgLog (" - HDA: %a", GetHdaControllerName (Pci.Hdr.VendorId, Pci.Hdr.DeviceId));
+          MsgLog (" - HDA: %a\n", GetHdaControllerName (Pci.Hdr.VendorId, Pci.Hdr.DeviceId));
           HDA_PROPERTIES *hda = &gAudios[NHDA];
 
           // Populate Controllers IDs
