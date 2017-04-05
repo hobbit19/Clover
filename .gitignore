@@ -45,12 +45,8 @@
 /Version.h
 /vers.txt
 
-/rEFIt_UEFI/Version.h
-/rEFIt_UEFI/vers.txt
 rEFIt_UEFI/rEFIt_proj/rEFIt_proj.xcodeproj/project.xcworkspace/
 rEFIt_UEFI/rEFIt_proj/rEFIt_proj.xcodeproj/xcuserdata/
-CloverX/CloverX.xcodeproj/project.xcworkspace/
-CloverX/CloverX.xcodeproj/xcuserdata/
 
 # XCode files/directories
 *~.nib
@@ -71,4 +67,3 @@ CloverUpdater.strings
 CloverPackage/CloverUpdater/src/*.lproj
 CloverPrefpane.strings
 CloverPackage/CloverPrefpane/src/*.lproj
-
