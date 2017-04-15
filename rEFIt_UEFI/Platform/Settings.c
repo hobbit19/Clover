@@ -6340,8 +6340,8 @@ GetDevices ()
 
             case 0x8086:
               gfx->Vendor                 = Intel;
-              AsciiSPrint (gfx->Model, 64, "%a", get_gma_model (Pci.Hdr.DeviceId));
-              DBG (" - GFX: Model=%a (Intel)\n", gfx->Model);
+              AsciiSPrint (gfx->Model, 64, "%a", GetIntelGraphicsName (Pci.Hdr.DeviceId));
+              DBG (" - GFX: %a\n", gfx->Model);
               gfx->Ports = 1;
               gfx->Connectors = (1 << NGFX);
               gfx->ConnChanged = FALSE;
@@ -6499,7 +6499,10 @@ GetDevices ()
          ((Pci.Hdr.ClassCode[1] == PCI_CLASS_MEDIA_HDA) ||
          (Pci.Hdr.ClassCode[1] == PCI_CLASS_MEDIA_AUDIO)) &&
          (NHDA < 4)) {
-          MsgLog (" - HDA: %a\n", GetHdaControllerName (Pci.Hdr.VendorId, Pci.Hdr.DeviceId));
+          MsgLog (
+            " - HDA: %a\n",
+            GetHdaControllerName (Pci.Hdr.VendorId, Pci.Hdr.DeviceId)
+            );
           HDA_PROPERTIES *hda = &gAudios[NHDA];
 
           // Populate Controllers IDs
@@ -6614,6 +6617,7 @@ SetDevices (LOADER_ENTRY *Entry)
               device = devprop_add_device_pci(string, &PCIdevice);
               PCIdevice.used = TRUE;
             }
+#if 0
             //special corrections
             if (Prop->MenuItem.BValue) {
               if (AsciiStrStr(Prop->Key, "-platform-id") != NULL) {
@@ -6622,7 +6626,7 @@ SetDevices (LOADER_ENTRY *Entry)
                 devprop_add_value(device, Prop->Key, (UINT8*)Prop->Value, Prop->ValueLen);
               }
             }
-
+#endif
             StringDirty = TRUE;
             Prop = Prop->Next;
           }
@@ -6817,12 +6821,14 @@ SetDevices (LOADER_ENTRY *Entry)
 
                 case 0x8086:
                   if (gSettings.InjectIntel) {
-                    TmpDirty    = setup_gma_devprop(&PCIdevice);
-                    StringDirty |=  TmpDirty;
-                    MsgLog ("Intel GFX revision  = 0x%x\n", PCIdevice.revision);
+                    InjectIntelGraphicsProperties (
+                      &Pci,
+                      DevicePathFromHandle (HandleBuffer[i])
+                      );
                   } else {
-                    MsgLog ("Intel GFX injection not set\n");
+                      MsgLog ("Intel graphics injection not enabled\n");
                   }
+
                   if (gSettings.IntelBacklight) {
                     /*Status = */PciIo->Mem.Write(
                                                   PciIo,
